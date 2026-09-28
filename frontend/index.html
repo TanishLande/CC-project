@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered V2X Network | Team Neural Optimizers (SIH26203)</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="cyber-theme">
+  <!-- Top Tactical Nav -->
+  <header class="top-nav">
+    <div class="brand">
+      <div class="pulse-beacon"></div>
+      <div class="brand-text">
+        <h1>V2X // INTELLIGENT TACTICAL OPS CENTER</h1>
+        <span class="sub">SIH26203 • Smart Vehicles • Team Neural Optimizers</span>
+      </div>
+    </div>
+    <div class="top-telemetry">
+      <div class="metric-pill" id="badge-edge-latency">
+        <span class="label">EDGE AI LATENCY</span>
+        <span class="val highlight" id="edge-latency-val">-- ms</span>
+        <span class="target">&lt; 20ms</span>
+      </div>
+      <div class="metric-pill">
+        <span class="label">5G MEC STATUS</span>
+        <span class="val status-ok" id="edge-status-val">ONLINE</span>
+      </div>
+      <div class="metric-pill">
+        <span class="label">PKI GATEWAY</span>
+        <span class="val status-ok" id="pki-status-val">VALIDATED</span>
+      </div>
+      <div class="metric-pill">
+        <span class="label">OLLAMA AI COPILOT</span>
+        <span class="val" id="ollama-status-val">CONNECTING...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <main class="dashboard-grid">
+    <!-- Left Column: Simulation Canvas & EVP Commander -->
+    <section class="panel canvas-panel">
+      <div class="panel-header">
+        <div class="title-wrap">
+          <span class="icon">🛰️</span>
+          <h2>LOCAL DYNAMIC MAP // 4-TIER DIGITAL TWIN</h2>
+        </div>
+        <div class="canvas-controls">
+          <span class="badge" id="active-scenario-badge">NORMAL FLOW</span>
+          <button class="btn btn-sm btn-outline" id="btn-toggle-tracks">Toggle Vectors</button>
+        </div>
+      </div>
+      <div class="canvas-container">
+        <canvas id="traffic-canvas" width="800" height="600"></canvas>
+        <div id="preemption-overlay" class="preemption-banner hidden">
+          <div class="siren-icon">🚨</div>
+          <div>
+            <div class="title">AUTONOMOUS EMERGENCY PREEMPTION ACTIVE</div>
+            <div class="subtitle" id="preemption-details">Zero-Delay Green Corridor Cleared for AMB_911</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tactical Scenario Controls -->
+      <div class="scenario-bar">
+        <div class="scenario-group">
+          <span class="group-label">SCENARIO INJECTION:</span>
+          <button class="btn btn-scenario" data-scenario="NORMAL_FLOW">Nominal Flow</button>
+          <button class="btn btn-scenario" data-scenario="PEAK_HOUR">Peak Rush Hour</button>
+          <button class="btn btn-scenario btn-danger" data-scenario="VRU_HAZARD">⚠️ Jaywalking Hazard</button>
+          <button class="btn btn-scenario" data-scenario="NETWORK_OUTAGE">Cloud Outage Test</button>
+        </div>
+        <div class="evp-group">
+          <button class="btn btn-evp" id="btn-trigger-evp">
+            <span class="siren">🚨</span> DISPATCH AMBULANCE (EVP CORRIDOR)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Center Column: Signal Control & C-V2X Ingest -->
+    <section class="panel side-panel">
+      <!-- SPaT Signal Cabinets -->
+      <div class="sub-panel spat-box">
+        <div class="panel-header">
+          <span class="icon">🚦</span>
+          <h3>SAE J2735 SPaT CONTROLLER</h3>
+          <span class="mode-tag" id="signal-mode-tag">MAX-PRESSURE ADAPTIVE</span>
+        </div>
+        <div class="signal-grid">
+          <div class="signal-card" id="sig-north">
+            <div class="dir-name">NORTH APPROACH</div>
+            <div class="light-head">
+              <div class="bulb red"></div>
+              <div class="bulb yellow"></div>
+              <div class="bulb green"></div>
+            </div>
+            <div class="timer" id="timer-north">--s</div>
+            <div class="queue-info" id="queue-north">Q: 0 veh</div>
+          </div>
+
+          <div class="signal-card" id="sig-south">
+            <div class="dir-name">SOUTH APPROACH</div>
+            <div class="light-head">
+              <div class="bulb red"></div>
+              <div class="bulb yellow"></div>
+              <div class="bulb green"></div>
+            </div>
+            <div class="timer" id="timer-south">--s</div>
+            <div class="queue-info" id="queue-south">Q: 0 veh</div>
+          </div>
+
+          <div class="signal-card" id="sig-east">
+            <div class="dir-name">EAST APPROACH</div>
+            <div class="light-head">
+              <div class="bulb red"></div>
+              <div class="bulb yellow"></div>
+              <div class="bulb green"></div>
+            </div>
+            <div class="timer" id="timer-east">--s</div>
+            <div class="queue-info" id="queue-east">Q: 0 veh</div>
+          </div>
+
+          <div class="signal-card" id="sig-west">
+            <div class="dir-name">WEST APPROACH</div>
+            <div class="light-head">
+              <div class="bulb red"></div>
+              <div class="bulb yellow"></div>
+              <div class="bulb green"></div>
+            </div>
+            <div class="timer" id="timer-west">--s</div>
+            <div class="queue-info" id="queue-west">Q: 0 veh</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active C-V2X Safety Alerts Feed -->
+      <div class="sub-panel alerts-box">
+        <div class="panel-header">
+          <span class="icon">🛡️</span>
+          <h3>EDGE AI SAFETY ALERTS (TTC &lt; 2.0s)</h3>
+          <span class="count-badge" id="alert-count">0 Active</span>
+        </div>
+        <div class="alerts-stream" id="alerts-stream-container">
+          <div class="empty-alerts">All approaches clear. Edge AI continuously screening collision cones.</div>
+        </div>
+      </div>
+
+      <!-- Regional Cloud & SIH Impact Analytics -->
+      <div class="sub-panel impact-box">
+        <div class="panel-header">
+          <span class="icon">📊</span>
+          <h3>ODISHA PILOT IMPACT ANALYTICS (SIH BENCHMARK)</h3>
+        </div>
+        <div class="stats-matrix">
+          <div class="stat-card">
+            <div class="stat-num" id="stat-crash-reduction">26% - 80%</div>
+            <div class="stat-lbl">Crash Reduction</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num highlight" id="stat-lives-saved">1,130 - 3,476</div>
+            <div class="stat-lbl">Lives Saved / Yr</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-eta-reduction">48.5%</div>
+            <div class="stat-lbl">Ambulance Delay Cut</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-corridors-cleared">0</div>
+            <div class="stat-lbl">Zero-Delay Corridors</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Ollama AI Copilot & PSAP Operations -->
+    <section class="panel copilot-panel">
+      <div class="panel-header">
+        <div class="title-wrap">
+          <span class="icon">🧠</span>
+          <h2>OLLAMA PSAP COPILOT</h2>
+        </div>
+        <span class="model-tag" id="copilot-model-tag">llama3.2:3b</span>
+      </div>
+
+      <div class="copilot-briefs" id="copilot-briefs-box">
+        <div class="brief-card">
+          <div class="brief-title">TACTICAL BRIEFING ENGINE</div>
+          <div class="brief-body" id="latest-debrief-text">
+            Initializing AI Copilot... Local LLM is synthesizing real-time edge telemetry and green corridor state.
+          </div>
+          <button class="btn btn-xs btn-outline" id="btn-request-debrief">Generate Ops Debrief</button>
+        </div>
+      </div>
+
+      <div class="chat-history" id="chat-history-box">
+        <div class="chat-msg ai">
+          <div class="sender">COPILOT (AI DISPATCHER)</div>
+          <div class="bubble">Tactical Operations console online. I am monitoring the Janpath arterial corridor in Bhubaneswar. Ask me for corridor reports, phase analytics, or preemption logs.</div>
+        </div>
+      </div>
+
+      <div class="chat-input-bar">
+        <input type="text" id="copilot-input" placeholder="Ask AI Copilot (e.g. 'Status of South corridor?')..." />
+        <button class="btn btn-primary" id="btn-send-chat">SEND</button>
+      </div>
+
+      <!-- Gateway & PKI Telemetry Feed -->
+      <div class="pki-status-strip">
+        <div class="pki-item">Validated BSM: <span id="val-bsm-count">0</span></div>
+        <div class="pki-item">VRU Telemetry: <span id="val-vru-count">0</span></div>
+        <div class="pki-item">Replay Rejections: <span id="rej-count" class="text-danger">0</span></div>
+      </div>
+    </section>
+
+    <!-- Full-Width Live C-V2X Protocol Sniffer & Packet Inspector -->
+    <section class="panel packet-sniffer-panel">
+      <div class="panel-header">
+        <div class="title-wrap">
+          <span class="icon">📡</span>
+          <h2>LIVE C-V2X PROTOCOL SNIFFER // SAE J2735 & ETSI PACKET INSPECTOR</h2>
+        </div>
+        <div class="sniffer-controls">
+          <div class="filter-chips">
+            <button class="chip active" data-filter="ALL">ALL PACKETS</button>
+            <button class="chip" data-filter="EVA">🚨 EVA (AMBULANCE)</button>
+            <button class="chip" data-filter="BSM">🚗 BSM</button>
+            <button class="chip" data-filter="VRU">🚶 VRU</button>
+            <button class="chip" data-filter="SPAT">🚦 SPaT</button>
+          </div>
+          <span class="badge" id="packet-counter-badge">STREAMING</span>
+          <button class="btn btn-xs btn-outline" id="btn-pause-packets">Pause</button>
+          <button class="btn btn-xs btn-outline" id="btn-clear-packets">Clear</button>
+        </div>
+      </div>
+      <div class="sniffer-table-container">
+        <table class="sniffer-table">
+          <thead>
+            <tr>
+              <th style="width: 105px;">TIMESTAMP</th>
+              <th style="width: 160px;">PROTOCOL / MSG TYPE</th>
+              <th style="width: 130px;">TRANSMITTER ID</th>
+              <th style="width: 130px;">APPROACH</th>
+              <th>TELEMETRY DATA (SPEED, COORD, HEADING)</th>
+              <th style="width: 220px;">PKI STATUS & CERTIFICATE</th>
+            </tr>
+          </thead>
+          <tbody id="v2x-packet-body">
+            <!-- Streaming packet rows populate here in real time -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/canvas_renderer.js"></script>
+  <script src="js/copilot.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
